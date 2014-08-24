@@ -1,5 +1,7 @@
 ---
 - name: Instal compile  package
+  sudo: true
+  sudo_user: root
   apt: name={{ item }} state=installed
   with_items:
     - build-essential
@@ -21,6 +23,8 @@
   file: state=link src=/opt/chruby-{{ chruby_version }} path=/opt/chruby
 
 - name: Install chruby
+  sudo: true
+  sudo_user: root
   template: src=chruby.sh dest=/etc/profile.d/chruby.sh mode=0644
 
 - name: Fetch ruby-install source
