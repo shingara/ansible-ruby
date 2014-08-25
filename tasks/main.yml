@@ -17,6 +17,7 @@
   sudo: true
   sudo_user: root
   get_url: "dest=/opt/chruby-{{ chruby_version }}.tar.gz url=https://github.com/postmodern/chruby/archive/v{{ chruby_version }}.tar.gz"
+  changed_when: False
 
 - name: Extract chruby source
   sudo: true
