@@ -42,6 +42,7 @@
   sudo: true
   sudo_user: root
   shell: "cd /opt && tar -xzvf /opt/ruby-install-{{ ruby_install_version }}.tar.gz"
+  changed_when: False
 
 - name: link ruby-install
   sudo: true
@@ -52,13 +53,16 @@
   sudo: true
   sudo_user: root
   shell: "cd /opt/ruby-install && make install"
+  changed_when: False
 
 - name: create rubies directory
   sudo: true
   sudo_user: root
   shell: "mkdir -p /opt/rubies"
+  changed_when: False
 
 - name: compile ruby
   sudo: true
   sudo_user: root
   shell: "CONFIGURE_OPTS='--disable-install-rdoc' /usr/local/bin/ruby-install ruby {{ruby_version}} --no-reinstall"
+  changed_when: False
