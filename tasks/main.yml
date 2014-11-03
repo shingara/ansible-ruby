@@ -16,7 +16,7 @@
 - name: Fetch chruby source
   sudo: true
   sudo_user: root
-  get_url: "dest=/opt/chruby-{{ chruby_version }}.tar.gz url=https://github.com/postmodern/chruby/archive/v{{ chruby_version }}.tar.gz"
+  get_url: "dest=/opt/chruby-{{ chruby_version }}.tar.gz url=https://github.com/postmodern/chruby/archive/v{{ chruby_version }}.tar.gz validate_certs=no"
   changed_when: False
 
 - name: Extract chruby source
@@ -37,7 +37,7 @@
 - name: Fetch ruby-install source
   sudo: true
   sudo_user: root
-  get_url: "dest=/opt/ruby-install-{{ ruby_install_version }}.tar.gz url=https://github.com/postmodern/ruby-install/archive/v{{ ruby_install_version }}.tar.gz"
+  get_url: "dest=/opt/ruby-install-{{ ruby_install_version }}.tar.gz url=https://github.com/postmodern/ruby-install/archive/v{{ ruby_install_version }}.tar.gz validate_certs=no"
 
 - name: Extract ruby-install source
   sudo: true
