@@ -1,0 +1,53 @@
+---
+- name: Instal compile  package
+  apt: name={{ item }} state=installed
+  with_items:
+    - build-essential
+    - autoconf
+    - libssl-dev
+    - libyaml-dev
+    - libreadline6
+    - libreadline6-dev
+    - zlib1g
+    - zlib1g-dev
+
+- name: Fetch chruby source
+  get_url: "dest=/opt/chruby-{{ chruby_version }}.tar.gz url=https://github.com/postmodern/chruby/archive/v{{ chruby_version }}.tar.gz"
+  changed_when: False
+
+- name: Extract chruby source
+  shell: "cd /opt && tar -xzvf /opt/chruby-{{ chruby_version }}.tar.gz"
+
+- name: link chruby
+  file: state=link src=/opt/chruby-{{ chruby_version }} path=/opt/chruby
+
+- name: install chruby
+  shell: "cd /opt/chruby && make install"
+  changed_when: False
+
+- name: Install chruby
+  template: src=chruby.sh dest=/etc/profile.d/chruby.sh mode=0644
+
+
+- name: Fetch ruby-install source
+  git: "repo=https://github.com/postmodern/ruby-install.git dest=/opt/ruby-install force=yes"
+
+- name: install ruby-install
+  shell: "cd /opt/ruby-install && make install"
+  changed_when: False
+
+- name: create rubies directory
+  shell: "mkdir -p /opt/rubies"
+  changed_when: False
+
+- name: which ruby
+  debug: "msg={{ruby_version}}"
+
+- name: "compile ruby {{ruby_version}}"
+  shell: "CONFIGURE_OPTS='--disable-install-rdoc' /usr/local/bin/ruby-install ruby {{ruby_version}} --no-reinstall"
+  changed_when: False
+
+- name: "add chruby in autoloading"
+  template:
+    dest: /etc/profile.d/chruby.sh
+    src: chruby.sh

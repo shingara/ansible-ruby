@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Cyril Mougel
+  license: MIT
+  min_ansible_version: 1.4
+  platforms:
+    - name: Ubuntu
+      versions:
+        - saucy
+        - precise
+        - lucid
+    - name: Debian
+      versions:
+        - wheezy
+        - squeeze
+  categories:
+     - system
+dependencies: []
