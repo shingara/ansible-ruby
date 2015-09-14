@@ -1,5 +1,7 @@
 ---
 - name: Instal compile  package
+  sudo: true
+  sudo_user: root
   apt: name={{ item }} state=installed
   with_items:
     - build-essential
@@ -12,27 +14,34 @@
     - zlib1g-dev
 
 - name: Fetch chruby source
-  get_url: "dest=/opt/chruby-{{ chruby_version }}.tar.gz url=https://github.com/postmodern/chruby/archive/v{{ chruby_version }}.tar.gz"
+  sudo: true
+  sudo_user: root
+  get_url: "dest=/opt/chruby-{{ chruby_version }}.tar.gz url=https://github.com/postmodern/chruby/archive/v{{ chruby_version }}.tar.gz validate_certs=no"
   changed_when: False
 
 - name: Extract chruby source
+  sudo: true
+  sudo_user: root
   shell: "cd /opt && tar -xzvf /opt/chruby-{{ chruby_version }}.tar.gz"
 
 - name: link chruby
+  sudo: true
+  sudo_user: root
   file: state=link src=/opt/chruby-{{ chruby_version }} path=/opt/chruby
 
-- name: install chruby
-  shell: "cd /opt/chruby && make install"
-  changed_when: False
-
 - name: Install chruby
+  sudo: true
+  sudo_user: root
   template: src=chruby.sh dest=/etc/profile.d/chruby.sh mode=0644
 
-
 - name: Fetch ruby-install source
+  sudo: true
+  sudo_user: root
   git: "repo=https://github.com/postmodern/ruby-install.git dest=/opt/ruby-install force=yes"
 
 - name: install ruby-install
+  sudo: true
+  sudo_user: root
   shell: "cd /opt/ruby-install && make install"
   changed_when: False
 
